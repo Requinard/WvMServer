@@ -1,0 +1,35 @@
+{%  extends 'survey/base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-sm-12">
+        <h1>Instrumenten</h1>
+        <p>Een lijst van alle instrumenten</p>
+        <table class="table table-hover">
+            <tr>
+                <th>Naam</th>
+                <th>Beschrijving</th>
+                <th>Laats gemeten</th>
+                <th>Eenheid</th>
+                <th></th>
+            </tr>
+            {% for tool in instruments %}
+            <a href="{% url 'survey:InstrumentDetailed' tool.id %}">
+                <tr>
+                    <td>{{ tool.name }}</td>
+                    <td>{{ tool.description }}</td>
+                    <td>
+                        {% for row in data %}
+                            {% if row.relatedSensor == tool %}
+                            {{ row.data }}
+                            {% endif %}
+                        {% endfor %}
+                    </td>
+                    <td>{{ tool.unit }}</td>
+                    <td><a href="{% url 'survey:InstrumentDetailed' tool.id %}">Bekijk</a></td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+{%  endblock %}

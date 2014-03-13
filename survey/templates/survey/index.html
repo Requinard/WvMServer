@@ -1,0 +1,24 @@
+{% extends "survey/base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-sm-12">
+        <h1>Welkom bij de wijk van morgen</h1>
+        <p>De volgende data is gemeten op {{ stampDate }} om {{ stampTime}}</p>
+        <table class="table table-hover">
+            <tr>
+                <th>Meetpunt</th>
+                <th>Data</th>
+                <th>Eenheid</th>
+            </tr>
+            {%  for row in data %}
+            <tr>
+                <td>{{ row.relatedSensor }} in {{ row.relatedSensor.unit }}</td>
+                <td>{{ row.data }}</td>
+                <td>{{ row.relatedSensor.unit  }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+{% endblock %}

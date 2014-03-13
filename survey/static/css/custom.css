@@ -1,0 +1,14 @@
+#login {
+	background-color:rgb(238, 238, 238);
+}
+
+body {
+	padding-top:50px;
+	margin-bottom:50px;
+	border-bottom-right-radius: 15px;
+	border-bottom-left-radius: 15px;
+}
+
+.row {
+    margin-top:20px;
+}

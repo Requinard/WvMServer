@@ -1,0 +1,33 @@
+{%  extends 'survey/base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-sm-12">
+        <h1>Timestamps</h1>
+        <p>Alle stamps uit de afgelopen tijd</p>
+        <p>Sort by: <a href="{% url 'survey:TimestampInterval' 1 %}">10 minutes, <a href="{% url 'survey:TimestampInterval' 3 %}">30 minutes, </a><a href="{% url 'survey:TimestampInterval' 6 %}">1 hour, </a><a href="{% url 'survey:TimestampInterval' 72 %}">12 hours </a>or <a href="{% url 'survey:TimestampInterval' 144 %}">24 hours.</a></p>
+        <table class="table table-hover">
+            <tr>
+                <th>date</th>
+                {% for sensor in sensors %}
+                <th>{{ sensor }}</th>
+                {%  endfor %}
+                <th>Link</th>
+            </tr>
+            {% for stamppoint in stamps %}
+            <tr>
+                {% for item in stamppoint %}
+                    {% if item.stamp %}
+                        <td>{{ item.stamp|date:"D d N H:i" }}</td>
+                    {% else %}
+                        <td>{{ item }}</td>
+                    {% endif %}
+                {% endfor %}
+                <td><a href="{% url 'survey:TimestampDetailed' stamppoint.0.id %}">Bekijk Detail</a></td>
+            </tr>
+            {% endfor %}
+        </table>
+                    <!--  stamp.stamp|date:"D d N H:i" -->
+    </div>
+</div>
+{%  endblock %}

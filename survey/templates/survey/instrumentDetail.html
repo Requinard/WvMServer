@@ -1,0 +1,76 @@
+{%  extends 'survey/base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-sm-12">
+        <h1>{{ sensor.name }}</h1>
+        <p>{{ sensor.description }}</p>
+
+        <div id="specific" class="row">
+            <div class="col-sm-4">
+                <form method="post" action="{% url 'survey:InstrumentDetailed' sensor.id %}">
+
+                    {% csrf_token %}
+
+                    <div class="form-group" id="specific">
+                        <label>Hoeveel items?</label>
+                        <input type="number" name="amount" class="form-control">
+                        <label>Beginpunt</label>
+                        <input type="number" name="start" class="form-control">
+                        <label>Eindpunt</label>
+                        <input type="number" name="end" class="form-control">
+                        <label>Sorteren</label>
+                        <input type="number" name="sort" class="form-control">
+                        <input type="hidden" name="action" value="specify">
+                        <button class="btn btn-success" name="sort">Submit</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="col-sm-offset-8">
+                <form method="post" action="{% url 'survey:InstrumentDetailed' sensor.id %}">
+                    {% csrf_token %}
+
+                    <div class="form-group">
+                        <input type="hidden" name="action" value="download">
+                        <button class="btn btn-success" name="download">Download deze data</button>
+                     </div>
+                </form>
+            </div>
+        </div>
+
+        <button class="btn btn-default btn-block" id="showspec">Speciale details</button>
+        <br />
+
+        <p>Sort by: <a href="{% url 'survey:InstrumentDetailed' sensor.id 1 %}">10 minutes, <a href="{% url 'survey:InstrumentDetailed' sensor.id 3 %}">30 minutes, </a><a href="{% url 'survey:InstrumentDetailed' sensor.id 6 %}">1 hour, </a><a href="{% url 'survey:InstrumentDetailed' sensor.id 72 %}">12 hours </a>or <a href="{% url 'survey:InstrumentDetailed' sensor.id 144 %}">24 hours.</a></p>
+        <table class="table table-hover">
+            <tr>
+                <th>Tijd</th>
+                <th>{{ sensor.unit }}</th>
+                <th>Andere data van tijd</th>
+            </tr>
+            {% for row in data %}
+            <tr>
+                <td>{{ row.relatedStamp.stamp|date:"D d M H:i" }}</td>
+                <td>{{ row.data}}</td>
+                <td><a href="{% url 'survey:TimestampDetailed' row.relatedStamp.id %}">Andere sensoren op dit tijdstip</a></td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+{%  endblock %}
+
+{% block scripts %}
+<script type="application/javascript">
+    // On load
+    $('document').ready(function(){
+        $('#specific').hide();
+    })
+
+    $('#showspec').click(function(){
+        $('#specific').toggle();
+    })
+
+</script>
+{% endblock %}
