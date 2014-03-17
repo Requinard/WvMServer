@@ -35,7 +35,25 @@ def instrument(request, sort=1):
 
     return render(request, 'survey/instrument.html', context)
 
-def instrumentDetail(request, id, sort=1):
+
+def getSpecificPost(get):
+    try:
+        first = int(get['start'])
+    except:
+        first = 1
+    try:
+        last = int(get['end'])
+    except:
+        last = 50
+    try:
+        sort = int(get['sorting'])
+    except:
+        sort = 1
+
+    return first, last, sort
+
+
+def instrumentDetail(request, id):
     """
     Lists all measurements from a specific instrument
     """
@@ -45,8 +63,11 @@ def instrumentDetail(request, id, sort=1):
         get = request.POST
 
         if get["action"] == 'download':
+            first, last, sort = getSpecificPost(get)
             # Als er gedownload moet worden
-            relatedData = SensorData.objects.filter(relatedSensor_id = id).order_by('-id')[::int(sort)]
+
+            relatedData = SensorData.objects.filter(relatedSensor_id = id).order_by('-id')[first:last*sort:sort]
+
             relatedSensor = get_object_or_404(SensorDescription, pk=id)
             # Ophalen Data
 
@@ -60,25 +81,21 @@ def instrumentDetail(request, id, sort=1):
             writer.writerow(["Tijdstip", "%s (%s)" % (relatedSensor.name, relatedSensor.unit)])
 
             for row in relatedData:
-                writer.writerow([row.relatedStamp.stamp., row.data])
+                writer.writerow([row.relatedStamp.stamp, row.data])
 
             return response
 
         elif get["action"] == "specify":
         # Specifieke meetgegevens pakken
-            first = int(get['start'])
-            last = int(get['end'])
-            amount = int(get['amount'])
-            sort = 1 #int(get['sort'])
+            first, last, sort = getSpecificPost(get)
 
-            relatedData = SensorData.objects.filter(relatedSensor_id = id).order_by('-id')[::sort]
-            relatedData = relatedData[first:last]
+            relatedData = SensorData.objects.filter(relatedSensor_id = id).order_by('-id')[first:last * sort:sort]
             #Get all data related to the instrument
 
             relatedSensor = get_object_or_404(SensorDescription, pk=id)
             #Get the sensor description, or 404 otherwise
 
-            context = {'sensor' : relatedSensor, 'data': relatedData}
+            context = {'sensor' : relatedSensor, 'data': relatedData, "first": first, "last" : last,"sort":sort }
 
             return render(request, 'survey/instrumentDetail.html', context)
 
@@ -93,11 +110,80 @@ def instrumentDetail(request, id, sort=1):
 
     return render(request, 'survey/instrumentDetail.html', context)
 
-def timestamp(request, sort=1):
+
+def timestamp(request):
     """
     Lists latest timestamp, with link to details
     """
-    stamps = TimeStamp.objects.all().order_by('-pk')[::int(sort)]
+
+    if request.POST:
+        post = request.POST
+
+        if post['action'] == "download":
+            first, last, sort = getSpecificPost(post)
+            # Get POST variables
+
+            timestamps = TimeStamp.objects.all()[first:last*sort:sort]
+            #timestamps.order_by("-pk")
+            # Get Timestamps
+
+            sensors = SensorDescription.objects.all().order_by("pk")
+
+            response = HttpResponse(content_type="text/csv")
+            response['Content-Disposition'] = 'attachment; filename="%s.csv"' % str(datetime.datetime.now())
+            # Schrijven resposnie
+
+            writer = csv.writer(response, delimiter=';')
+            # CSVschrijver openen
+
+            sensorRow = ["Timestamp"]
+
+            for sensor in sensors:
+                sensorRow.append("%s (%s)" %(sensor.name , sensor.unit))
+
+            writer.writerow(sensorRow)
+
+            for stamp in timestamps:
+                dataRow = [stamp]
+
+                data = SensorData.objects.filter(relatedStamp_id=stamp.id)
+
+                for row in data:
+                    dataRow.append(row.data)
+
+                writer.writerow(dataRow)
+
+            return response
+
+        elif post['action'] == "specify":
+            first, last, sort = getSpecificPost(post)
+
+            stamps = TimeStamp.objects.all().order_by('-pk')[first:last*sort:sort]
+            #Get all stamps, order them bij latest, and then sort by interval
+
+            dataRows = []
+
+            for stamp in stamps:
+                dataRow = [stamp]
+                data = SensorData.objects.filter(relatedStamp_id=stamp.id)
+
+                for row in data:
+                    dataRow.append(row.data)
+
+                dataRows.append(dataRow)
+
+            sensors = SensorDescription.objects.all().order_by('pk')
+            context = {'stamps' : dataRows, 'sensors':sensors, 'data':dataRows }
+            #Sets the context for template calls
+
+
+            return render(request, 'survey/stamp.html', context)
+            #Renders webpage
+
+
+
+
+    stamps = TimeStamp.objects.all().order_by('-pk')[::1]
     stamps = stamps[:100]
     #Get all stamps, order them bij latest, and then sort by interval
 
@@ -120,6 +206,7 @@ def timestamp(request, sort=1):
     return render(request, 'survey/stamp.html', context)
     #Renders webpage
 
+
 def timestampDetail(request,id):
     """
     Lists all measurements from a specific timestamp
@@ -132,6 +219,7 @@ def timestampDetail(request,id):
 
     context = {'stampTime': relatedStamp.stamp.time(), 'stampDate':relatedStamp.stamp.date(),  'data' : relatedData}
     return render(request, 'survey/stampDetailed.html', context)
+
 
 def generate(request):
     """
@@ -164,6 +252,7 @@ def generate(request):
         current += delta
 
     return index(request)
+
 
 def download(request, amount = 0, interval = 0):
     """
@@ -205,6 +294,7 @@ def download(request, amount = 0, interval = 0):
         context = {'stampcount' : stampCount}
 
         return render(request, "survey/download.html", context)
+
 
 def find(request):
     """

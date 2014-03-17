@@ -7,18 +7,14 @@ urlpatterns = patterns(
     # /index/
     url(r'^index/$', views.index, name='index1'),
 
-    # /instrument/1/sort/6/
-    url(r'^instrument/(?P<id>\d+)/sort/(?P<sort>\d+)/$', views.instrumentDetail, name="InstrumentDetailed"),
     # /instrument/1/
     url(r'^instrument/(?P<id>\d+)/$', views.instrumentDetail, name="InstrumentDetailed"),
     # /instrument/
     url(r'^instrument/$', views.instrument, name='InstrumentAll'),
 
-    # /stamp/sort/6
-    url(r'^stamp/sort/(?P<sort>\d+)/$', views.timestamp, name="TimestampInterval"),
     # /stamp/1
     url(r'^stamp/detail/(?P<id>\d+)/$', views.timestampDetail, name="TimestampDetailed"),
-    # /stamp/find/<y>/<mo>/<d>/<h>/<mi>/
+    # /stamp/find/
     url(r'stamp/find/$', views.find, name="TimeStampfind"),
     # /stamp/
     url(r'^stamp/$', views.timestamp, name="TimestampGeneral"),

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from models import SensorDescription, SensorData, TimeStamp
+from models import SensorDescription, SensorData, TimeStamp, Interval
 
 
 # Register your models here.
@@ -27,6 +27,7 @@ class SensorDataInline(admin.TabularInline):
     extra = 5
     can_delete = False
 
+
 class SensorDescriptionAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'description', 'unit')
     list_per_page = 30
@@ -44,6 +45,11 @@ class TimeStampAdmin(admin.ModelAdmin):
     ]
 
 
+class IntervalAdmin(admin.ModelAdmin):
+    pass
+
+
 admin.site.register(SensorData, SensorDataAdmin)
 admin.site.register(SensorDescription, SensorDescriptionAdmin)
 admin.site.register(TimeStamp, TimeStampAdmin)
+admin.site.register(Interval)

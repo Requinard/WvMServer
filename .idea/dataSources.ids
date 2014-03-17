@@ -1,20 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component name="dataSourceStorage">
-  <data-source source="LOCAL" name="SQlite" product="SQLite" version="3.7.6.3" jdbc-version="2.1" driver-name="SQLiteJDBC" driver-version="native" uuid="1f739f9d-4831-4200-af23-29b554492b89">
+  <data-source source="LOCAL" name="SQlite" product="" version="" jdbc-version="" driver-name="" driver-version="" uuid="1f739f9d-4831-4200-af23-29b554492b89">
     <case-sensitivity plain-identifiers="mixed" quoted-identifiers="mixed"/>
     <synchronize>true</synchronize>
     <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
     <jdbc-url>jdbc:sqlite:C:\Users\David\Projecten\WvM\HouseServer\db.sqlite3</jdbc-url>
     <schema-pattern>*</schema-pattern>
     <default-dialect>SQLite</default-dialect>
-    <libraries>
-      <library>
-        <url>jar://$PROJECT_DIR$/sqlite-jdbc-3.7.6.3-20110609.081603-3.jar!/</url>
-      </library>
-      <library>
-        <url>file://$PROJECT_DIR$/xerial-sqlite-license.txt</url>
-      </library>
-    </libraries>
+    <libraries/>
     <schema name="" catalog=""/>
     <table name="accounts_usersignup" schema="" catalog="" type="TABLE">
       <column name="id" sqlType="INTEGER" length="2000000000" precision="10" nullable="false" jdbcType="4"/>
@@ -124,6 +117,12 @@
       <primary-key columns="session_key"/>
       <index name="django_session_b7b81f0c" unique="true" columns="expire_date"/>
     </table>
+    <table name="survey_interval" schema="" catalog="" type="TABLE">
+      <column name="id" sqlType="INTEGER" length="2000000000" precision="10" nullable="false" jdbcType="4"/>
+      <column name="value" sqlType="INTEGER" length="2000000000" precision="10" nullable="false" jdbcType="4"/>
+      <column name="name" sqlType="VARCHAR(12)" length="2000000000" precision="10" nullable="false" jdbcType="12"/>
+      <primary-key columns="id"/>
+    </table>
     <table name="survey_sensordata" schema="" catalog="" type="TABLE">
       <column name="id" sqlType="INTEGER" length="2000000000" precision="10" nullable="false" jdbcType="4"/>
       <column name="relatedStamp_id" sqlType="INTEGER" length="2000000000" precision="10" nullable="false" jdbcType="4"/>
@@ -136,11 +135,11 @@
       <index name="survey_sensordata_407b6d90" unique="true" columns="relatedStamp_id"/>
     </table>
     <table name="survey_sensordescription" schema="" catalog="" type="TABLE">
-      <column name="id" sqlType="INTEGER" length="2000000000" precision="10" nullable="false" jdbcType="4"/>
       <column name="name" sqlType="VARCHAR(30)" length="2000000000" precision="10" nullable="false" jdbcType="12"/>
       <column name="description" sqlType="VARCHAR(100)" length="2000000000" precision="10" nullable="false" jdbcType="12"/>
       <column name="unit" sqlType="VARCHAR(10)" length="2000000000" precision="10" nullable="false" jdbcType="12"/>
-      <column name="dui" sqlType="VARCHAR(32)" length="2000000000" precision="10" nullable="false" jdbcType="12"/>
+      <column name="id" sqlType="INTEGER" length="2000000000" precision="10" nullable="false" jdbcType="4"/>
+      <column name="dui" sqlType="VARCHAR(32)" length="2000000000" precision="10" nullable="true" jdbcType="12"/>
       <primary-key columns="id"/>
       <exported-key name="#FAKE_survey_sensordata_1" table="survey_sensordata" schema="" catalog="" columns="relatedSensor_id"/>
     </table>
@@ -286,6 +285,12 @@
       <primary-key columns="session_key"/>
       <index name="django_session_b7b81f0c" unique="true" columns="expire_date"/>
     </table>
+    <table name="survey_interval" schema="" catalog="" type="TABLE">
+      <column name="id" sqlType="INTEGER" length="2000000000" precision="10" nullable="false" jdbcType="4"/>
+      <column name="value" sqlType="INTEGER" length="2000000000" precision="10" nullable="false" jdbcType="4"/>
+      <column name="name" sqlType="VARCHAR(12)" length="2000000000" precision="10" nullable="false" jdbcType="12"/>
+      <primary-key columns="id"/>
+    </table>
     <table name="survey_sensordata" schema="" catalog="" type="TABLE">
       <column name="id" sqlType="INTEGER" length="2000000000" precision="10" nullable="false" jdbcType="4"/>
       <column name="relatedStamp_id" sqlType="INTEGER" length="2000000000" precision="10" nullable="false" jdbcType="4"/>
@@ -298,11 +303,11 @@
       <index name="survey_sensordata_407b6d90" unique="true" columns="relatedStamp_id"/>
     </table>
     <table name="survey_sensordescription" schema="" catalog="" type="TABLE">
-      <column name="id" sqlType="INTEGER" length="2000000000" precision="10" nullable="false" jdbcType="4"/>
       <column name="name" sqlType="VARCHAR(30)" length="2000000000" precision="10" nullable="false" jdbcType="12"/>
       <column name="description" sqlType="VARCHAR(100)" length="2000000000" precision="10" nullable="false" jdbcType="12"/>
       <column name="unit" sqlType="VARCHAR(10)" length="2000000000" precision="10" nullable="false" jdbcType="12"/>
-      <column name="dui" sqlType="VARCHAR(32)" length="2000000000" precision="10" nullable="false" jdbcType="12"/>
+      <column name="id" sqlType="INTEGER" length="2000000000" precision="10" nullable="false" jdbcType="4"/>
+      <column name="dui" sqlType="VARCHAR(32)" length="2000000000" precision="10" nullable="true" jdbcType="12"/>
       <primary-key columns="id"/>
       <exported-key name="#FAKE_survey_sensordata_1" table="survey_sensordata" schema="" catalog="" columns="relatedSensor_id"/>
     </table>

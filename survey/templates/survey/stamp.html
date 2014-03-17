@@ -5,7 +5,50 @@
     <div class="col-sm-12">
         <h1>Timestamps</h1>
         <p>Alle stamps uit de afgelopen tijd</p>
-        <p>Sort by: <a href="{% url 'survey:TimestampInterval' 1 %}">10 minutes, <a href="{% url 'survey:TimestampInterval' 3 %}">30 minutes, </a><a href="{% url 'survey:TimestampInterval' 6 %}">1 hour, </a><a href="{% url 'survey:TimestampInterval' 72 %}">12 hours </a>or <a href="{% url 'survey:TimestampInterval' 144 %}">24 hours.</a></p>
+
+        <div id="specific" class="row">
+            <div class="col-sm-4">
+                <form method="post" action="{% url 'survey:TimestampGeneral' %}">
+
+                    {% csrf_token %}
+
+                    <div class="form-group" id="specific">
+                        <h2>Sorteren</h2>
+                        <label>Beginpunt</label>
+                        <input type="number" name="start" class="form-control">
+                        <label>Eindpunt</label>
+                        <input type="number" name="end" class="form-control">
+                        <label>Sorteren</label>
+                        <input type="number" name="sorting" class="form-control">
+                        <input type="hidden" name="action" value="specify">
+                        <br />
+                        <button class="btn btn-success btn-block" name="sort">Submit</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="col-sm-offset-8">
+                <form method="post" action="{% url 'survey:TimestampGeneral' %}">
+                    {% csrf_token %}
+
+                    <div class="form-group">
+                        <h2>Downloaden</h2>
+                        <label>Begin</label>
+                        <input type="number" class="form-control" name="first" value={{ first }}>
+                        <label>Laatst</label>
+                        <input type="number" class="form-control" name="last" value={{ last }}>
+                        <label>Sort</label>
+                        <input type="number" class="form-control" name="sorting" value={{ sort }}>
+                        <br />
+                        <input type="hidden" name="action" value="download">
+                        <button class="btn btn-success btn-block" name="download">Download deze data</button>
+                     </div>
+                </form>
+            </div>
+        </div>
+
+        <button class="btn btn-default btn-block" id="showspec">Speciale details</button>
+
         <table class="table table-hover">
             <tr>
                 <th>date</th>
@@ -26,8 +69,21 @@
                 <td><a href="{% url 'survey:TimestampDetailed' stamppoint.0.id %}">Bekijk Detail</a></td>
             </tr>
             {% endfor %}
-        </table>
-                    <!--  stamp.stamp|date:"D d N H:i" -->
+        <table>
     </div>
 </div>
-{%  endblock %}
+{% endblock %}
+
+{% block scripts %}
+<script type="application/javascript">
+    // On load
+    $('document').ready(function(){
+        $('#specific').hide();
+    })
+
+    // Laat alle details zien
+    $('#showspec').click(function(){
+        $('#specific').toggle("medium");
+    })
+</script>
+{% endblock %}

@@ -1,20 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="DataSourceManagerImpl" format="xml" hash="1045861229">
+  <component name="DataSourceManagerImpl" format="xml" hash="3353120047">
     <data-source source="LOCAL" name="SQlite" uuid="1f739f9d-4831-4200-af23-29b554492b89">
       <synchronize>true</synchronize>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
       <jdbc-url>jdbc:sqlite:C:\Users\David\Projecten\WvM\HouseServer\db.sqlite3</jdbc-url>
       <schema-pattern>*</schema-pattern>
       <default-dialect>SQLite</default-dialect>
-      <libraries>
-        <library>
-          <url>jar://$PROJECT_DIR$/sqlite-jdbc-3.7.6.3-20110609.081603-3.jar!/</url>
-        </library>
-        <library>
-          <url>file://$PROJECT_DIR$/xerial-sqlite-license.txt</url>
-        </library>
-      </libraries>
+      <libraries />
     </data-source>
     <data-source source="LOCAL" name="Django mysql" uuid="e5a93947-3956-4435-b895-dde402b496ba">
       <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>

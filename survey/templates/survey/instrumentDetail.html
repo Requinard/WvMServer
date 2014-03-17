@@ -13,16 +13,15 @@
                     {% csrf_token %}
 
                     <div class="form-group" id="specific">
-                        <label>Hoeveel items?</label>
-                        <input type="number" name="amount" class="form-control">
                         <label>Beginpunt</label>
                         <input type="number" name="start" class="form-control">
                         <label>Eindpunt</label>
                         <input type="number" name="end" class="form-control">
                         <label>Sorteren</label>
-                        <input type="number" name="sort" class="form-control">
+                        <input type="number" name="sorting" class="form-control">
                         <input type="hidden" name="action" value="specify">
-                        <button class="btn btn-success" name="sort">Submit</button>
+                        <br />
+                        <button class="btn btn-success btn-block" name="sort">Submit</button>
                     </div>
                 </form>
             </div>
@@ -32,8 +31,15 @@
                     {% csrf_token %}
 
                     <div class="form-group">
+                        <label>Begin</label>
+                        <input type="number" class="form-control" name="first" value={{ first }}>
+                        <label>Laatst</label>
+                        <input type="number" class="form-control" name="last" value={{ last }}>
+                        <label>Sort</label>
+                        <input type="number" class="form-control" name="sorting" value="{{ sort }}">
+                        <br />
                         <input type="hidden" name="action" value="download">
-                        <button class="btn btn-success" name="download">Download deze data</button>
+                        <button class="btn btn-success btn-block" name="download">Download deze data</button>
                      </div>
                 </form>
             </div>
@@ -42,7 +48,6 @@
         <button class="btn btn-default btn-block" id="showspec">Speciale details</button>
         <br />
 
-        <p>Sort by: <a href="{% url 'survey:InstrumentDetailed' sensor.id 1 %}">10 minutes, <a href="{% url 'survey:InstrumentDetailed' sensor.id 3 %}">30 minutes, </a><a href="{% url 'survey:InstrumentDetailed' sensor.id 6 %}">1 hour, </a><a href="{% url 'survey:InstrumentDetailed' sensor.id 72 %}">12 hours </a>or <a href="{% url 'survey:InstrumentDetailed' sensor.id 144 %}">24 hours.</a></p>
         <table class="table table-hover">
             <tr>
                 <th>Tijd</th>
@@ -68,9 +73,9 @@
         $('#specific').hide();
     })
 
+    // Laat alle details zien
     $('#showspec').click(function(){
-        $('#specific').toggle();
+        $('#specific').toggle("medium");
     })
-
 </script>
 {% endblock %}
