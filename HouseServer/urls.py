@@ -12,8 +12,7 @@ urlpatterns = patterns('',
     # url(r'^blog/', include('blog.urls')),
     url(r'^admin/', include(admin.site.urls)),
 
-    url(r'^account/', include('accounts.urls')),
+    url(r'^api/', include('api.urls')),
 
-    url(r'^survey/', include('survey.urls', namespace="survey")),
-
+    url(r'^', include('survey.urls', namespace="survey")),
 )

@@ -4,11 +4,13 @@ from django.db import models
 
 
 class TimeStamp(models.Model):
-    stamp = models.DateTimeField()
+    stamp = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return str(self.stamp)
 
+    class Meta:
+        ordering = ("-stamp",)
 
 class SensorDescription(models.Model):
     name = models.CharField(max_length=30)

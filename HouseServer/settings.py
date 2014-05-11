@@ -40,6 +40,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.admin',
     'survey',
+    'rest_framework',
     'django_evolution',
 )
 
@@ -62,18 +63,14 @@ WSGI_APPLICATION = 'HouseServer.wsgi.application'
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
 
 DATABASES = {
-    'mysql': {
+    'default': {
         'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'wvm',                      # Or path to database file if using sqlite3.
-        'USER': 'wvm',                      # Not used with sqlite3.
-        'PASSWORD': 'wvm',                  # Not used with sqlite3.
-        'HOST': '192.168.8.130',
+        'NAME': 'WijkVanMorgen',                      # Or path to database file if using sqlite3.
+        'USER': 'WijkVanMorgen',                      # Not used with sqlite3.
+        'PASSWORD': 'r7N6QjN8DMKAHNnu',                  # Not used with sqlite3.
+        'HOST': '95.211.149.236',
         'PORT' : ''# Set to empty string for localhost. Not used with sqlite3.                      # Set to empty string for default. Not used with sqlite3.
     },
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
 }
 
 # Internationalization

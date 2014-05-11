@@ -2,14 +2,17 @@ import datetime
 import random
 import csv
 from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 from models import TimeStamp, SensorDescription, SensorData
 # Create your views here.
 def index(request):
     """
     Lists latest instrument measurements
     """
-    latestStamp = TimeStamp.objects.order_by('-pk')[0]
+    try:
+        latestStamp = TimeStamp.objects.order_by('-pk')[0]
+    except:
+        raise Http404
     #Get all timestamps, order them by latest, and pick the first object
 
     relatedData = SensorData.objects.filter(relatedStamp_id = latestStamp.id)
@@ -231,7 +234,7 @@ def generate(request):
     if current == 0:
         current = datetime.datetime.now()
     delta = datetime.timedelta(minutes=10)
-    for x in range(0, 4000):
+    for x in range(0, 200):
         # get a timestamp
 
         timestampf = TimeStamp(stamp=current)
